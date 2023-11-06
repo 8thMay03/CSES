@@ -32,7 +32,7 @@ int main(){
     int i = 0;
     while (i < s.size()){
         int cnt = 0;
-        while (s[i] == cur){
+        while(s[i] == cur){
             i++;
             cnt++;
         }

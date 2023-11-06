@@ -25,21 +25,18 @@ template <typename T> ostream& operator<<(ostream& out, set<T>& st){for (const T
  
 int main(){
     faster();
-    int t;
-    cin >> t;
-    while(t--){
-        ll x, y, ans;
-        cin >> x >> y;
-        ll mx = max(x, y);
-        ll mn = min(x, y);
-        if(mx == x){
-            if(x & 1) ans = (mx - 1) * (mx - 1) + mn;
-            else ans = mx * mx - mn + 1;
+    int n, x;
+    cin >> n >> x;
+    vi a(n);
+    vll dp(x + 1, 1e9);
+    cin >> a;
+    for(int i: a) if(i <= x) dp[i] = 1;
+    for(int i = 1; i <= x; i++){
+        if(dp[i] == 1) continue;
+        for(int j: a){
+            if(i >= j) dp[i] = min(dp[i], dp[i - j] + 1);
         }
-        else{
-            if(y % 2 == 0) ans = (mx - 1) * (mx - 1) + mn;
-            else ans = mx * mx - mn + 1;
-        }
-        cout << ans << endl;
     }
+    if(dp[x] == 1e9) cout << -1;
+    else cout << dp[x];
 }
