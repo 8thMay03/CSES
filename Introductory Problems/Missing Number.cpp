@@ -28,14 +28,11 @@ int main(){
     int n;
     cin >> n;
     set<int> st;
-    for (int i = 1; i <= n; i++)
-        st.insert(i);
+    for(int i = 1; i <= n; i++) st.insert(i);
     vi a(n - 1);
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++){
         cin >> a[i];
         st.erase(a[i]);
     }
     cout << *st.begin();
-
 }
