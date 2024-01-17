@@ -20,12 +20,29 @@
 using namespace std;
 
 template <typename T> istream& operator>>(istream& in, vector<T>& vec){for (T& element : vec) in >> element; return in;}
-template <typename T> ostream& operator<<(ostream& out, vector<T>& vec){for (T& element : vec) out << element << endl; return out;}
+template <typename T> ostream& operator<<(ostream& out, vector<T>& vec){for (T& element : vec) out << element << " "; return out;}
 template <typename T> ostream& operator<<(ostream& out, set<T>& st){for (const T& element : st) out << element << " "; return out;}
 
 int main(){
     faster();
-    vector<int> a = {1, 2, 3 ,4};
-    a.insert(a.begin(), 0);
-    cout << a;
+    int n, m;
+    cin >> n >> m;
+    vi a(n), b(m);
+    for(int i = 0; i < n; i++){
+        cin >> a[i];
+        a[i] = -a[i];
+    }
+    for(int i = 0; i < m; i++){
+        cin >> b[i];
+        b[i] = -b[i];
+    }
+    multiset<int> st(all(a));
+    for(int i = 0; i < m; i++){
+        auto it = st.lower_bound(b[i]);
+        if(it == st.end()) cout << -1 << endl;
+        else{
+            cout << -*it << endl;
+            st.erase(it);
+        }
+    }
 }

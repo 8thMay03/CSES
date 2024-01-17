@@ -34,7 +34,7 @@ int main(){
     vll dp(k + 1, 0);
     dp[0] = 1;
     for(ll i = 1; i <= k; i++){
-        for(ll j = 0; j < n;j ++){
+        for(ll j = 0; j < n; j++){
             if(i >= a[j]){
                 dp[i] += dp[i - a[j]];
                 dp[i] %= mod;
