@@ -45,7 +45,6 @@ int main() {
                     reverse(ans.begin(), ans.end());
                     cout << "YES" << endl << ans.size() << endl << ans;
                     return 0;
-                    return 0;
                 }
                 q.push({nx, ny});
                 a[nx][ny] = '#';
