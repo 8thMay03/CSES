@@ -1,87 +1,56 @@
 #include <bits/stdc++.h>
 
-#define int long long
-#define fi first
-#define se second
-#define pb push_back
-#define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
-#define faster() ios::sync_with_stdio(false); cin.tie(0);
-#define pi 3.14159265358979323846
-#define N 1000005
-
 using namespace std;
 
-template <typename T> istream& operator >> (istream& in, vector<T>& vec) {for (T& element : vec) in >> element; return in;}
-template <typename T> ostream& operator << (ostream& out, vector<T>& vec) {for (T& element : vec) out << element << " "; return out;}
-template <typename T> ostream& operator << (ostream& out, set<T>& st) {for (const T& element : st) out << element << " "; return out;}
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+char dir[] = {'D', 'U', 'R', 'L'};
 
-vector<int> dx = {-1, 1, 0, 0};
-vector<int> dy = {0, 0, -1, 1};
-vector<char> moves = {'U', 'D', 'L', 'R'};
-
-void solve() {
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
     int n, m;
     cin >> n >> m;
-    char s[n][m];
-    pair<int, int> start, end;
+    int sx, sy;
+    char a[n][m];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cin >> s[i][j];
-            if (s[i][j] == 'A') {
-                start.fi = i;
-                start.se = j;
-            }
-            if (s[i][j] == 'B') {
-                end.fi = i;
-                end.se = j;
+            cin >> a[i][j];
+            if (a[i][j] == 'A') {
+                sx = i;
+                sy = j;
             }
         }
     }
-    map<pair<int, int>, pair<int, int>> pre;
     queue<pair<int, int>> q;
-    q.push({start});
+    int mp[n][m];
+    q.emplace(sx, sy);
+    a[sx][sy] = '#';
     while (!q.empty()) {
-        auto cur = q.front();
+        auto [x, y] = q.front();
         q.pop();
-        for (int i = 0; i < 4; i++) {
-            pair<int, int> next = {cur.fi + dx[i], cur.se + dy[i]};
-            if (next.fi >= 0 && next.fi < n && next.se >= 0 && next.se < m && s[next.fi][next.se] != '#') {
-                s[next.fi][next.se] = '#';
-                pre[next] = cur;
-                if (next == end) {
-                    vector<pair<int, int>> path;
-                    while (end != start) {
-                        path.push_back(end);    
-                        end = pre[end];
+        for (int k = 0; k < 4; k++) {
+            int nx = x + dx[k];
+            int ny = y + dy[k];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m && a[nx][ny] != '#') {
+                mp[nx][ny] = k;
+                if (a[nx][ny] == 'B') {
+                    string ans;
+                    while (nx != sx || ny != sy) {
+                        int it = mp[nx][ny];
+                        ans += dir[it];
+                        nx -= dx[it];
+                        ny -= dy[it];
                     }
-                    path.push_back(start);
-                    reverse(all(path));
-                    cout << "YES" << endl;
-                    cout << path.size() - 1 << endl;
-                    for (int i = 1; i < (int)path.size(); i++) {
-                        int diff_x = path[i].fi - path[i - 1].fi;
-                        int diff_y = path[i].se - path[i - 1].se;
-                        for (int k = 0; k < 4; k++) {
-                            if (diff_x == dx[k] && diff_y == dy[k]) {
-                                cout << moves[k];
-                                break;
-                            }
-                        }
-                    }
-                    return;
+                    reverse(ans.begin(), ans.end());
+                    cout << "YES" << endl << ans.size() << endl << ans;
+                    return 0;
+                    return 0;
                 }
-                q.push(next);
+                q.push({nx, ny});
+                a[nx][ny] = '#';
             }
         }
     }
-    cout << "NO" << endl;
-}
-
-signed main() {
-    faster();
-    int t = 1;
-    while (t--) {
-        solve();
-    }
+    cout << "NO";
 }
